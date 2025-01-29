@@ -157,6 +157,7 @@ export class SignInPage implements OnInit {
     }
 
     async loginWithKeyCloak() {
+        console.log('entered loginWithKeyCloak in sign-in page');
         this.appGlobalService.resetSavedQuizContent();
         if (!this.commonUtilService.networkInfo.isNetworkAvailable) {
         } else {
@@ -168,10 +169,13 @@ export class SignInPage implements OnInit {
             
             await loginSessionProviderConfigloader.present();
             try {
+                console.log('entered try block of loginWithKeyCloak in sign-in page');
                 keycloakLoginSessionProviderConfig = await this.formAndFrameworkUtilService.getWebviewSessionProviderConfig('login');
                 keycloakMigrateSessionProviderConfig = await this.formAndFrameworkUtilService.getWebviewSessionProviderConfig('migrate');
                 await loginSessionProviderConfigloader.dismiss();
+                console.log('inaside try block in loginwithkeycloak - keycloakLoginSessionProviderConfig', keycloakLoginSessionProviderConfig);
             } catch (e) {
+                console.log('entered catch block of loginWithKeyCloak in sign-in page', e);
                 await this.sbProgressLoader.hide({id: 'login'});
                 await loginSessionProviderConfigloader.dismiss();
                 this.commonUtilService.showToast('ERROR_WHILE_LOGIN');
@@ -213,30 +217,38 @@ export class SignInPage implements OnInit {
     }
 
     async signInWithGoogle() {
+        console.log('entered signInWithGoogle in sign-in page');
         this.loginNavigationHandlerService.generateLoginInteractTelemetry
         (InteractType.LOGIN_INITIATE, InteractSubtype.GOOGLE, '');
         const clientId = await this.systemSettingsService.getSystemSettings({id: SystemSettingsIds.GOOGLE_CLIENT_ID}).toPromise();
+        console.log('clientId', clientId);
         this.googlePlusLogin.login({
             webClientId: clientId.value
         }).then(async (result) => {
+            console.log('printing the result', result);
             await this.sbProgressLoader.show({id: 'login'});
             const nativeSessionGoogleProvider = new NativeGoogleSessionProvider(() => result);
             await this.preferences.putBoolean(PreferenceKey.IS_GOOGLE_LOGIN, true).toPromise();
             await this.loginNavigationHandlerService.setSession(nativeSessionGoogleProvider, this.skipNavigation, InteractSubtype.GOOGLE)
             .then(() => {
+                console.log('navigateBack inside signinwithgoogle', this.skipNavigation);
                 this.navigateBack(this.skipNavigation);
             });
         }).catch(async (err) => {
+            console.log('printing the err', err);
             await this.sbProgressLoader.hide({id: 'login'});
             if (err instanceof SignInError) {
+                console.log('printing the err message', err.message);
                 this.commonUtilService.showToast(err.message);
             } else {
+                console.log('printing the else part in the catch block');
                 this.commonUtilService.showToast('ERROR_WHILE_LOGIN');
             }
         });
     }
 
     async register() {
+        console.log('entered register in sign-in page');
         const webviewSessionProviderConfigLoader = await this.commonUtilService.getLoader();
         let webviewRegisterSessionProviderConfig: WebviewRegisterSessionProviderConfig;
         let webviewMigrateSessionProviderConfig: WebviewSessionProviderConfig;
@@ -245,6 +257,7 @@ export class SignInPage implements OnInit {
             webviewRegisterSessionProviderConfig = await this.formAndFrameworkUtilService.getWebviewSessionProviderConfig('register');
             webviewMigrateSessionProviderConfig = await this.formAndFrameworkUtilService.getWebviewSessionProviderConfig('migrate');
             await webviewSessionProviderConfigLoader.dismiss();
+            console.log('webviewRegisterSessionProviderConfig', webviewRegisterSessionProviderConfig);
         } catch (e) {
             await this.sbProgressLoader.hide({id: 'login'});
             await webviewSessionProviderConfigLoader.dismiss();
