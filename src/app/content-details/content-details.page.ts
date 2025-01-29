@@ -508,6 +508,7 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
       .then(async (data: Content) => {
         if (data) {
           if (data.contentData.size) {
+            
             this.contentSize = data.contentData.size;
           }
           if(this.cardData?.hierachyInfo) {
@@ -562,8 +563,11 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
     await this.ratingHandler.showRatingPopup(this.isContentPlayed, this.content, popUpType, this.corRelationList, this.objRollup);
   }
 
+  
+
   async extractApiResponse(data: Content) {
     await this.checkLimitedContentSharingFlag(data);
+    console.log('inside extractApiResponse data', data);
 
     if (this.isResumedCourse) {
       const parentIdentifier = this.resumedCourseCardData?.contentId ?
@@ -580,6 +584,7 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
       this.playOnlineSpinner = false;
     }
     this.content.contentData.appIcon =
+    console.log('printing the appIcon inside the extractApiResponse', this.content.contentData)
       this.commonUtilService.convertFileSrc(ContentUtil.getAppIcon(this.content.contentData.appIcon, data.basePath,
         this.commonUtilService.networkInfo.isNetworkAvailable));
     this.content.contentAccess = data.contentAccess ? data.contentAccess : [];
@@ -603,6 +608,7 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
     }
 
     this.playingContent = data;
+    console.log('playingContent', this.playingContent);
     this.telemetryObject = ContentUtil.getTelemetryObject(this.content);
     this.markContent();
 
@@ -854,6 +860,9 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
     this.eventSubscription = this.eventBusService.events().subscribe(async (event: EventsBusEvent) => {
       await this.zone.run(async () => {
         if (event.type === DownloadEventType.PROGRESS) {
+          console.log("entered inside subscribesdkevents in content details page",event)
+          console.log("content details page",this.content)
+
           const downloadEvent = event as DownloadProgress;
           if (downloadEvent.payload.identifier === this.content.identifier) {
             this.showDownload = true;
@@ -974,6 +983,7 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
    * Download content
    */
   downloadContent() {
+    
     this.zone.run(() => {
       if (this.commonUtilService.networkInfo.isNetworkAvailable) {
         this.showDownload = true;

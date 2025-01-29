@@ -156,6 +156,7 @@ export class DownloadManagerPage implements DownloadManagerPageInterface, OnInit
           this.generateInteractTelemetry(data.length, this.storageInfo.usedSpace, this.storageInfo.availableSpace);
         }
         data.forEach((value) => {
+          console.log('printing the value inside getDownloadedContents', value)
           value.contentData['lastUpdatedOn'] = value.lastUpdatedTime;
           value.contentData.appIcon = ContentUtil.getAppIcon(value.contentData.appIcon,
             value.basePath, this.commonUtilService.networkInfo.isNetworkAvailable);

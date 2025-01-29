@@ -136,6 +136,7 @@ export class ActiveDownloadsPage implements OnInit, OnDestroy, ActiveDownloadsIn
     this._downloadProgressSubscription = this.eventsBusService.events(EventNamespace.DOWNLOADS).pipe(
       filter((event) => event.type === DownloadEventType.PROGRESS),
       tap((event) => {
+        console.log("inside initDownloadProgress in sb-download-popup.compoenent",event)
         const downloadEvent = event as DownloadProgress;
         this.downloadProgressMap[downloadEvent.payload.identifier] = downloadEvent.payload.progress;
         this.changeDetectionRef.detectChanges();
