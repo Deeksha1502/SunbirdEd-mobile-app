@@ -72,7 +72,7 @@ export class SbDownloadPopupComponent implements OnInit, OnChanges {
       }
     }
     if (changes['contentName']) {
-      this.contentName = changes['contentName'].currentValue;
+       this.contentName = changes['contentName'].currentValue; 
     }
   }
 }
