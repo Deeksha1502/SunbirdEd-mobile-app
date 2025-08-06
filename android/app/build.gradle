@@ -45,10 +45,11 @@ android {
     buildTypes {
          debug {
             if (project.hasProperty('enforceReleaseSigningForDebug')) {
-                signingConfig signingConfigs.debug
+                signingConfig signingConfigs.release
             }
             buildConfigField "String", "SUPPORT_EMAIL","\"${support_email}\""
             buildConfigField 'String', 'BASE_URL', "\"${base_url}\""
+            buildConfigField 'String', 'APPLICATION_ID', "\"${app_id}\""
             buildConfigField 'String', 'MOBILE_APP_KEY', "\"${mobile_app_key}\""
             buildConfigField 'String', 'MOBILE_APP_SECRET', "\"${mobile_app_secret}\""
             buildConfigField 'String', 'CHANNEL_ID', "\"${channel_id}\""
@@ -63,6 +64,7 @@ android {
             signingConfig signingConfigs.release
             buildConfigField "String", "SUPPORT_EMAIL","\"${support_email}\""
             buildConfigField 'String', 'BASE_URL', "\"${base_url}\""
+            buildConfigField 'String', 'APPLICATION_ID', "\"${app_id}\""
             buildConfigField 'String', 'MOBILE_APP_KEY', "\"${mobile_app_key}\""
             buildConfigField 'String', 'MOBILE_APP_SECRET', "\"${mobile_app_secret}\""
             buildConfigField 'String', 'CHANNEL_ID', "\"${channel_id}\""
@@ -88,7 +90,6 @@ android {
         }
     }
 } // android
-
 
 repositories {
     flatDir{
