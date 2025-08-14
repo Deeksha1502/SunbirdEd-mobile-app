@@ -64,6 +64,12 @@
 -dontnote com.google.android.gms.common.api.internal.BasePendingResult
 -dontnote com.google.android.gms.gcm.GcmListenerService
 
+# Completely ignore Play Core warnings for Android 14 compatibility
+-dontwarn com.google.android.play.core.**
+-dontwarn com.google.android.play.**
+-keep class com.google.android.play.app.update.** { *; }
+-keep class com.google.android.play.core.common.** { *; }
+
 -keep class com.google.android.gms.** { *; }
 -keep public class com.google.android.gms.* { public *; }
 -dontwarn com.google.android.gms.**
