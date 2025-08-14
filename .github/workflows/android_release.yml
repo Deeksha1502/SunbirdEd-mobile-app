@@ -17,7 +17,7 @@ jobs:
       with:
         java-version: '21'
         distribution: 'zulu'
-        cache: gradle
+       # cache: gradle
     
     - name: Setup Android SDK
       uses: android-actions/setup-android@v2
@@ -191,7 +191,7 @@ jobs:
            --account-name "${{ secrets.AZURE_STORAGE_ACCOUNT }}" \
            --account-key "${{ secrets.AZURE_STORAGE_KEY }}" \
            --container-name "${{ vars.AZURE_CONTAINER_NAME }}" \
-           --file "$AAB_FILE" \
+           --file "/mobile-build/$AAB_FILE" \
            --name "sunbird-release-${{ env.VERSION_NAME }}-${{ github.run_number }}.aab" \
            --overwrite
 

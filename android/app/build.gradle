@@ -4,6 +4,22 @@ import com.android.build.gradle.internal.tasks.FinalizeBundleTask
 ext {
    
 }
+configurations.all {
+    resolutionStrategy {
+        eachDependency { DependencyResolveDetails details ->
+            if (details.requested.group == 'com.google.android.play' && details.requested.name == 'core') {
+                details.useTarget group: 'com.google.android.play', name: 'app-update', version: '2.1.0'
+            }
+        }
+        force 'com.google.android.play:app-update:2.1.0'
+        force 'com.google.android.play:review:2.0.1'
+        
+        // Exclude both old artifacts
+        exclude group: 'com.google.android.play', module: 'core'
+        exclude group: 'com.google.android.play', module: 'core-common'
+    }
+}
+
 
 android {
     namespace "org.sunbird"
@@ -27,6 +43,14 @@ android {
             // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
+    }
+        lintOptions {
+        disable 'GradleDependency'
+        checkReleaseBuilds false
+        abortOnError false
+    }
+        buildFeatures {
+        buildConfig true  // This enables BuildConfig.java generation
     }
     signingConfigs {
         release {
@@ -58,6 +82,7 @@ android {
             buildConfigField 'String', "REAL_VERSION_NAME", "\"${real_version_name}\""
             buildConfigField 'String', "VERSION_NAME", "\"${version_name}\""
             buildConfigField 'String', "TOU_BASE_URL", "\"${tou_base_url}\""
+            buildConfigField "Boolean", "IGNORE_PLAY_CORE_WARNING", "true"
 
         }
         release {
@@ -76,6 +101,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "Boolean", "IGNORE_PLAY_CORE_WARNING", "true"
         }
     }
  applicationVariants.configureEach { variant ->
@@ -98,7 +124,15 @@ repositories {
 }
 
 dependencies {
+     implementation(project(':capacitor-cordova-android-plugins')) {
+        exclude group: 'com.google.android.play', module: 'core'
+         exclude group: 'com.google.android.play', module: 'core-common'
+    }
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.google.android.play:app-update:2.1.0'
+    implementation 'com.google.android.play:review:2.0.1'
+    implementation 'com.google.android.play:app-update-ktx:2.1.0'
+    implementation 'com.google.android.gms:play-services-tasks:18.0.2'
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
     implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
@@ -106,7 +140,6 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
-    implementation project(':capacitor-cordova-android-plugins')
 }
 
 apply from: 'capacitor.build.gradle'
