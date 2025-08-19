@@ -4,21 +4,21 @@ import com.android.build.gradle.internal.tasks.FinalizeBundleTask
 ext {
    
 }
-configurations.all {
-    resolutionStrategy {
-        eachDependency { DependencyResolveDetails details ->
-            if (details.requested.group == 'com.google.android.play' && details.requested.name == 'core') {
-                details.useTarget group: 'com.google.android.play', name: 'app-update', version: '2.1.0'
-            }
-        }
-        force 'com.google.android.play:app-update:2.1.0'
-        force 'com.google.android.play:review:2.0.1'
+// configurations.all {
+//     resolutionStrategy {
+//         eachDependency { DependencyResolveDetails details ->
+//             if (details.requested.group == 'com.google.android.play' && details.requested.name == 'core') {
+//                 details.useTarget group: 'com.google.android.play', name: 'app-update', version: '2.1.0'
+//             }
+//         }
+//         force 'com.google.android.play:app-update:2.1.0'
+//         force 'com.google.android.play:review:2.0.1'
         
-        // Exclude both old artifacts
-        exclude group: 'com.google.android.play', module: 'core'
-        exclude group: 'com.google.android.play', module: 'core-common'
-    }
-}
+//         // Exclude both old artifacts
+//         exclude group: 'com.google.android.play', module: 'core'
+//         exclude group: 'com.google.android.play', module: 'core-common'
+//     }
+// }
 
 
 android {
@@ -34,7 +34,7 @@ android {
         resValue("string", "deeplink_ncert_url", "${deeplink_ncert_url}")
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-		versionCode 2
+		versionCode 3
         ext.buildNumber = System.getenv("TRAVIS_BUILD_NUMBER") ?: "local"
 		versionName "6.0.local"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
