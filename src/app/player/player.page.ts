@@ -291,10 +291,10 @@ export class PlayerPage implements OnInit, OnDestroy, PlayerActionHandlerDelegat
       }
     } else if (resp.data && resp.data.event === 'renderer:contentNotComaptible'
       || resp.data && resp.data.data.event === 'renderer:contentNotComaptible') {
-      cordova.plugins.InAppUpdateManager.checkForImmediateUpdate(
-        () => { },
-        () => { }
-      );
+      // cordova.plugins.InAppUpdateManager.checkForImmediateUpdate(
+      //   () => { },
+      //   () => { }
+      // );
     } else if (resp.data && resp.data.event === 'renderer:maxLimitExceeded') {
       await this.closeIframe();
     }
@@ -381,10 +381,10 @@ export class PlayerPage implements OnInit, OnDestroy, PlayerActionHandlerDelegat
       } else if(event.edata.type === 'NEXT_CONTENT_PLAY') {
            this.playNextContent();
       } else if (event.edata.type === 'compatibility-error') {
-        cordova.plugins.InAppUpdateManager.checkForImmediateUpdate(
-          () => {},
-          () => {}
-        );
+        // cordova.plugins.InAppUpdateManager.checkForImmediateUpdate(
+        //   () => {},
+        //   () => {}
+        // );
       } else if (event.edata.type === 'exdata') {
         if (event.edata.currentattempt) {
           const attemptInfo = {
