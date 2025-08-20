@@ -170,7 +170,7 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
     this.preference.getString('data-mode').subscribe((val)=>{
       this.isDarkMode = val === AppMode.DARKMODE;
     });
-    await this.checkForAppUpdate();
+    // await this.checkForAppUpdate();
   }
   ngAfterViewInit() {
     this.changeFontSize('reset');
@@ -502,16 +502,16 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
     await this.menuCtrl.close();
   }
 
-  private async checkForAppUpdate() {
-    return new Promise<void>((resolve => {
-      cordova.plugins.InAppUpdateManager.isUpdateAvailable((result: string) => {
-        if (result) {
-          this.isUpdateAvailable = true;
-          resolve();
-        }
-      }, () => { });
-    }));
-  }
+  // private async checkForAppUpdate() {
+  //   return new Promise<void>((resolve => {
+  //     cordova.plugins.InAppUpdateManager.isUpdateAvailable((result: string) => {
+  //       if (result) {
+  //         this.isUpdateAvailable = true;
+  //         resolve();
+  //       }
+  //     }, () => { });
+  //   }));
+  // }
 
   async showKebabMenu(event) {
     const kebabMenuPopover = await this.popoverCtrl.create({

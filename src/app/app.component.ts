@@ -941,11 +941,11 @@ export class AppComponent implements OnInit, AfterViewInit {
         await this.logoutHandlerService.onLogout();
         break;
 
-      case 'UPDATE':
-        window.cordova['plugins'].InAppUpdateManager.checkForImmediateUpdate(
-          () => { },
-          () => { }
-        );
+      // case 'UPDATE':
+      //   window.cordova['plugins'].InAppUpdateManager.checkForImmediateUpdate(
+      //     () => { },
+      //     () => { }
+      //   );
         break;
 
       case 'IMPORT':

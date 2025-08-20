@@ -96,10 +96,10 @@ export class UpgradePopoverComponent {
 
   async upgradeApp(link) {
     // for in app update
-    cordova.plugins.InAppUpdateManager.checkForImmediateUpdate(
-        () => {},
-        () => {}
-    );
+    // cordova.plugins.InAppUpdateManager.checkForImmediateUpdate(
+    //     () => {},
+    //     () => {}
+    // );
     this.telemetryGeneratorService.generateInteractTelemetry(
       InteractType.TOUCH,
       InteractSubtype.UPGRADE_CLICKED,

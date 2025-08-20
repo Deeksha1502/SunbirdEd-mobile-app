@@ -1311,12 +1311,14 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
           await ScreenOrientation.lock({orientation: 'portrait'});
         }
         this.playNextContent();
-      } else if (event.edata.type === 'compatibility-error') {
-        window.cordova.plugins.InAppUpdateManager.checkForImmediateUpdate(
-          () => {},
-          () => {}
-        );
-      } else if (event.edata.type === 'exdata') {
+      } 
+      // else if (event.edata.type === 'compatibility-error') {
+      //   window.cordova.plugins.InAppUpdateManager.checkForImmediateUpdate(
+      //     () => {},
+      //     () => {}
+      //   );
+      // } 
+      else if (event.edata.type === 'exdata') {
         if (event.edata.currentattempt) {
           const attemptInfo = {
             isContentDisabled: event.edata.maxLimitExceeded,
